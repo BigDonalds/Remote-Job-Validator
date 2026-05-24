@@ -1,0 +1,48 @@
+{
+  "manifest_version": 3,
+  "name": "Remote Job Validator",
+  "version": "2.0",
+  "description": "AI-powered job quality scoring with dead posting detection, fair pay analysis, and real business verification",
+  "permissions": [
+    "activeTab",
+    "storage",
+    "sidePanel",
+    "alarms"
+  ],
+  "host_permissions": [
+    "http://localhost:8000/*",
+    "https://*.linkedin.com/*",
+    "https://*.indeed.com/*",
+    "https://*.remoteok.com/*",
+    "https://*.weworkremotely.com/*"
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Validate this job"
+  },
+  "side_panel": {
+    "default_path": "sidepanel.html"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://*.linkedin.com/jobs/*",
+        "https://*.indeed.com/viewjob*",
+        "https://*.remoteok.com/remote-jobs/*",
+        "https://*.weworkremotely.com/remote-jobs/*"
+      ],
+      "js": ["content.js"],
+      "css": ["styles.css"],
+      "run_at": "document_end"
+    }
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": ["savedjobs.html", "savedjobs.js"],
+      "matches": ["<all_urls>"]
+    }
+  ]
+}
